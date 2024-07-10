@@ -1,0 +1,30 @@
+name: "SMA Energy Meter emulator"
+description: "Simulate one or more SMA energy meters based on mqtt messages."
+version: "0.0.1"
+slug: "sma"
+arch:
+  - aarch64
+  - amd64
+  - armhf
+  - armv7
+  - i386
+init: false
+services:
+  - 'mqtt:need'
+options:
+  debug: false
+  disable_logging: false
+  mqtt:
+    broker: "auto_broker"
+    port: "auto_port"
+    username: "auto_user"
+    password: "auto_password"
+schema:
+  debug: bool
+  disable_logging: bool
+  mqtt:
+    broker: str
+    port: str
+    username: str?
+    password: str?
+#image: "ghcr.io/roeland54/{arch}-SMA-Energy-Meter-emulator
