@@ -2,6 +2,7 @@ name: "SMA Energy Meter emulator"
 description: "Simulate one or more SMA energy meters based on mqtt messages."
 version: "0.0.1"
 slug: "sma"
+url: "https://github.com/Roeland54/SMA-Energy-Meter-emulator"
 arch:
   - aarch64
   - amd64
@@ -27,4 +28,4 @@ schema:
     port: str
     username: str?
     password: str?
-#image: "ghcr.io/roeland54/{arch}-SMA-Energy-Meter-emulator
+image: "ghcr.io/roeland54/{arch}-SMA-Energy-Meter-emulator
