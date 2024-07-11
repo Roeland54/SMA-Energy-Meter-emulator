@@ -5,7 +5,7 @@ FROM $BUILD_FROM
 #RUN apk add --no-cache python3 bash py3-pip
 
 # download requirements.txt
-RUN wget --no-cache https://raw.githubusercontent.com/Roeland54/SMA-Energy-Meter-emulator/feature/initial-setup-of-the-emulator/sma/requirements.txt
+RUN wget --no-cache https://raw.githubusercontent.com/Roeland54/SMA-Energy-Meter-emulator/main/sma/requirements.txt
 
 # install dependencies
 RUN pip install -r requirements.txt --break-system-packages
