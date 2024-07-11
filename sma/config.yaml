@@ -11,7 +11,7 @@ arch:
   - i386
 init: false
 services:
-  - 'mqtt:need'
+  - "mqtt:need"
 options:
   debug: false
   disable_logging: false
@@ -28,4 +28,4 @@ schema:
     port: str
     username: str?
     password: str?
-image: "ghcr.io/roeland54/{arch}-SMA-Energy-Meter-emulator
+image: "ghcr.io/roeland54/{arch}-SMA-Energy-Meter-emulator"
