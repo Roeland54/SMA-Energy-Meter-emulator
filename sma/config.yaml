@@ -28,4 +28,4 @@ schema:
     port: str
     username: str?
     password: str?
-image: "ghcr.io/roeland54/{arch}-SMA-Energy-Meter-emulator"
+image: "ghcr.io/roeland54/{arch}-sma-energy-meter-emulator"
