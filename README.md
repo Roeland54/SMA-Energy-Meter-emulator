@@ -12,7 +12,7 @@ This home assistant add-on can emulate the existence of one or more SMA Energy M
 
 - Install the addon from the add-on store.
 
-### [SMA Energy Meter simulator](./example)
+### [SMA Energy Meter simulator](./sma/DOCS.md)
 
 ![Supports aarch64 Architecture][aarch64-shield]
 ![Supports amd64 Architecture][amd64-shield]
