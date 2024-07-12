@@ -1,12 +1,17 @@
 import json
 import logging
 import time
+import os
 import paho.mqtt.client as mqtt
 import util
 from config import settings
 from emeter import emeterPacket
 
 def setup_mqtt(userdata):
+    if settings["enable_mqtt"] is False:
+        return None
+    
+    set_mqtt_settings()
     mqtt_client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2, userdata = userdata, protocol=mqtt.MQTTv5)
 
     if settings["mqtt"]["username"] and settings["mqtt"]["password"]:
@@ -23,8 +28,8 @@ def setup_mqtt(userdata):
 
     mqtt_client.connect(settings["mqtt"]["broker"], port)
     logging.info("Starting MQTT loop")
-    mqtt_client.loop_forever()
-
+    mqtt_client.loop_start()
+    return mqtt_client._thread
 
 def on_connect(client, userdata, flags, rc, properties=None):
     if rc == 0:
@@ -59,3 +64,28 @@ def on_message(client, userdata, msg):
     with userdata['lock']:
         userdata['packets'][serial_number] = (packet_data, destination_addresses)
         logging.info(f"Updated packet for serial number {serial_number}")
+
+def set_mqtt_settings():
+    if os.environ.get("IS_HA_ADDON"):
+        if settings["mqtt"]["broker"] != "auto_broker" \
+                or settings["mqtt"]["port"] != "auto_port" \
+                or settings["mqtt"]["username"] != "auto_user" \
+                or settings["mqtt"]["password"] != "auto_password":
+            # If settings were manually set, use the manually set settings
+            return None
+
+        broker_host = os.getenv("MQTTHOST", None)
+        broker_port = os.getenv("MQTTPORT", None)
+        broker_user = os.getenv("MQTTUSER", None)
+        broker_pass = os.getenv("MQTTPASS", None)
+
+        if not broker_host or not broker_port:
+            raise Exception("MQTT connection could not be established. Please check if your MQTT Add-On is running!")
+
+        logging.debug("MQTT Credentials - Host " + broker_host + " Port: " + str(broker_port) +
+                      " User: " + str(broker_user) + " Pass: " + str(broker_pass))
+
+        settings["mqtt"]["broker"] = broker_host
+        settings["mqtt"]["port"] = broker_port
+        settings["mqtt"]["username"] = broker_user
+        settings["mqtt"]["password"] = broker_pass

@@ -5,7 +5,6 @@ import udp
 
 def main():
     util.setup_logging()
-    util.set_mqtt_settings()
 
     userdata = {
         'packets': {},
@@ -14,8 +13,17 @@ def main():
         'udp_port': 9522
     }
 
-    mqtt.setup_mqtt(userdata)
+    threads=[]
+
+    mqtt_thread = mqtt.setup_mqtt(userdata)
+
+    if mqtt_thread is not None:
+     threads.append(mqtt_thread)
+
     udp.setup_udp(userdata)
+
+    for thread in threads:
+     thread.join()
 
 if __name__ == "__main__":
     main()
