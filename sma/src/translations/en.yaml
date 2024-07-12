@@ -1,0 +1,4 @@
+configuration:
+  mqtt:
+    name: MQTT Broker settings
+    description: Leave the settings as they are if you are using the MQTT Mosquitto Addon. If not, take a look at the readme from volvo2mqtt.
