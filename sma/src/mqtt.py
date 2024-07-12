@@ -7,7 +7,7 @@ from config import settings
 from emeter import emeterPacket
 
 def setup_mqtt(userdata):
-    mqtt_client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2, userdata, protocol=mqtt.MQTTv5)
+    mqtt_client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2, userdata = userdata, protocol=mqtt.MQTTv5)
 
     if settings["mqtt"]["username"] and settings["mqtt"]["password"]:
         mqtt_client.username_pw_set(settings["mqtt"]["username"], settings["mqtt"]["password"])
