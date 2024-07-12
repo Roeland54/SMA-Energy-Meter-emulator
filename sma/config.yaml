@@ -19,7 +19,7 @@ options:
     port: "auto_port"
     username: "auto_user"
     password: "auto_password"
-  debug: false
+  debug_logging: false
   disable_logging: false
 schema:
   enable_mqtt: bool
