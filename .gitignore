@@ -163,3 +163,5 @@ cython_debug/
 
 .devcontainer
 .vscode
+settings.json
+__pycache__/
