@@ -12,10 +12,10 @@ The add-on will subscribe to the following mqtt topic: `sma/emeter/<NUMERIC_METE
 
 ```json
 {
-  "powerIn": 1200, // power consumption in dW  120W is 1200dW (multiply Watts by 10)
-  "powerOut": 800, // power production in dW
-  "energyIn": 500000, // consumed energy in Ws  (multipy WattHours by 3600)
-  "energyOut": 200000, // produced energy in Ws
+  "powerIn": 125.5, // power consumption in W
+  "powerOut": 80.3, // power production in W
+  "energyIn": 5000.603, // consumed energy in kWh
+  "energyOut": 2000.707, // produced energy in Kwh
   "destinationAddresses": [
     // optional ip-addresses to send the packets to. Default behaviour uses multicast.
   ]
@@ -28,16 +28,15 @@ example of a service call to publish the mqtt message:
 
 ```yaml
 service: mqtt.publish
-metadata: {}
 data:
-  topic: sma/emeter/1234/state
   payload_template: |-
     {
-        "powerIn": {{((states('sensor.power_consumed_from_grid') | float) * 10) | round(0)}},
-        "powerOut": {{((states('sensor.power_returned_to_grid') | float) * 10) | round(0)}},
-        "energyIn": {{((states('sensor.energy_grid_consumed_helper') | float) * 1000 * 3600) | round(0)}},
-        "energyOut": {{((states('sensor.energy_grid_returned_helper') | float) * 1000 * 3600) | round(0)}},
-        "destinationAddresses": [
-    ]
+      "powerIn": {{states('sensor.power_consumed_from_grid')}},
+      "powerOut": {{states('sensor.power_returned_to_grid')}},
+      "energyIn": {{states('sensor.energy_grid_consumed_helper')}},
+      "energyOut": {{states('sensor.energy_grid_returned_helper')}},
+      "destinationAddresses": [
+        ]
     }
+  topic: sma/emeter/1/state
 ```
