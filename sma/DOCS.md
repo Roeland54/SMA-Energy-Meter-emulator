@@ -12,10 +12,10 @@ The add-on will subscribe to the following mqtt topic: `sma/emeter/<NUMERIC_METE
 
 ```json
 {
-  "powerIn": 1200, // power consumption in W
-  "powerOut": 800, // power production in W
-  "energyIn": 500000, // consumed energy in Wh
-  "energyOut": 200000, // produced energy in Wh
+  "powerIn": 1200, // power consumption in dW  120W is 1200dW (multiply Watts by 10)
+  "powerOut": 800, // power production in dW
+  "energyIn": 500000, // consumed energy in Ws  (multipy WattHours by 3600)
+  "energyOut": 200000, // produced energy in Ws
   "destinationAddresses": [
     // optional ip-addresses to send the packets to. Default behaviour uses multicast.
   ]
@@ -32,14 +32,12 @@ metadata: {}
 data:
   topic: sma/emeter/1234/state
   payload_template: |-
-    {{
     {
-      "powerIn": 0,
-      "powerOut": states('sensor.solax_inverter_power'),
-      "energyIn": 0,
-      "energyOut": states('sensor.solax_inverter_energy'),
-      "destinationAddresses": [
-        ]
+        "powerIn": {{((states('sensor.power_consumed_from_grid') | float) * 10) | round(0)}},
+        "powerOut": {{((states('sensor.power_returned_to_grid') | float) * 10) | round(0)}},
+        "energyIn": {{((states('sensor.energy_grid_consumed_helper') | float) * 1000 * 3600) | round(0)}},
+        "energyOut": {{((states('sensor.energy_grid_returned_helper') | float) * 1000 * 3600) | round(0)}},
+        "destinationAddresses": [
+    ]
     }
-    }}
 ```

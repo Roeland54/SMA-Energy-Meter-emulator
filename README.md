@@ -20,6 +20,9 @@ This home assistant add-on can emulate the existence of one or more SMA Energy M
 ![Supports armv7 Architecture][armv7-shield]
 ![Supports i386 Architecture][i386-shield]
 
+## Thanks to
+Based on code from [Eml2emeter](https://github.com/jtuemmler/sml2emeter) and used [Volvo2Mqtt](https://github.com/Dielee/volvo2mqtt) as example for the home assistant add-on specific configuration.
+
 <!--
 
 Notes to developers after forking or using the github template feature:
