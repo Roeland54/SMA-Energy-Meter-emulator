@@ -48,13 +48,13 @@ def on_message(client, userdata, msg):
     packet = emeterPacket(int(serial_number))
     packet.begin(int(time.time() * 1000))
 
-    packet.addMeasurementValue(emeterPacket.SMA_POSITIVE_ACTIVE_POWER, data['powerIn'])
-    packet.addMeasurementValue(emeterPacket.SMA_NEGATIVE_ACTIVE_POWER, data['powerOut'])
+    packet.addMeasurementValue(emeterPacket.SMA_POSITIVE_ACTIVE_POWER, round(data['powerIn'] * 10))
+    packet.addMeasurementValue(emeterPacket.SMA_NEGATIVE_ACTIVE_POWER, round(data['powerOut'] *10))
     packet.addMeasurementValue(emeterPacket.SMA_POSITIVE_REACTIVE_POWER, 0)
     packet.addMeasurementValue(emeterPacket.SMA_NEGATIVE_REACTIVE_POWER, 0)
 
-    packet.addCounterValue(emeterPacket.SMA_POSITIVE_ENERGY, data['energyIn'])
-    packet.addCounterValue(emeterPacket.SMA_NEGATIVE_ENERGY, data['energyOut'])
+    packet.addCounterValue(emeterPacket.SMA_POSITIVE_ENERGY, round(data['energyIn'] * 1000 * 3600))
+    packet.addCounterValue(emeterPacket.SMA_NEGATIVE_ENERGY, round(data['energyOut'] * 1000 * 3600))
 
     packet.end()
 
