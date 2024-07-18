@@ -17,7 +17,7 @@ The add-on will subscribe to the following mqtt topic: `sma/emeter/<NUMERIC_METE
   "energyIn": 5000.603, // consumed energy in kWh
   "energyOut": 2000.707, // produced energy in Kwh
   "destinationAddresses": [
-    // optional ip-addresses to send the packets to. Default behaviour uses multicast.
+    "192.168.1.34" // ip-address(es) to send the packets to. This should be the ip of the inverter. If you leave this emtpy then multicast will be used. (multicast is not confirmed to work yet)
   ]
 }
 ```
@@ -36,6 +36,7 @@ data:
       "energyIn": {{states('sensor.energy_grid_consumed_helper')}},
       "energyOut": {{states('sensor.energy_grid_returned_helper')}},
       "destinationAddresses": [
+          "192.168.1.34"
         ]
     }
   topic: sma/emeter/1/state

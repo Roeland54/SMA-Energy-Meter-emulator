@@ -1,5 +1,10 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
 
+## 0.0.10
+
+- Updated docs.
+- Confirmed functionality with Sunny Boy Smart Energy 5.0
+
 ## 0.0.9
 
 - Change measurment units

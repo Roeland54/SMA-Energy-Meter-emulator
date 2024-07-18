@@ -1,6 +1,6 @@
 name: "SMA Energy Meter emulator"
 description: "Simulate one or more SMA energy meters based on mqtt messages."
-version: "0.0.9"
+version: "0.0.10"
 slug: sma
 url: "https://github.com/Roeland54/SMA-Energy-Meter-emulator"
 arch:

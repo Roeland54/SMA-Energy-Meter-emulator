@@ -9,7 +9,9 @@ def setup_udp(userdata):
     udp_thread.start()
 
 def udp_sender(userdata):
-    udp_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    udp_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
+    udp_socket.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, 32)
+
     while True:
         with userdata['lock']:
             for serial_number, (packet_data, destination_addresses) in userdata['packets'].items():
