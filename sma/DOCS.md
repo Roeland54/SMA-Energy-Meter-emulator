@@ -1,4 +1,4 @@
-# SMA Energy Meter simulator
+# SMA Energy Meter emulator
 
 This home assistant add-on can emulate the existence of one or more SMA Energy Meters on the local network. This makes it possible to use the data from other meter types and integrate them in your SMA inverter.
 
