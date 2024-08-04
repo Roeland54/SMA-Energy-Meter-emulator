@@ -42,28 +42,35 @@ def on_connect(client, userdata, flags, rc, properties=None):
 def on_message(client, userdata, msg):
     logging.info(f"Received message on topic {msg.topic}")
     serial_number = msg.topic.split('/')[2]
-    data = json.loads(msg.payload)
-    logging.debug(f"Message data: {data}")
 
-    packet = emeterPacket(int(serial_number))
-    packet.begin(int(time.time() * 1000))
+    try:
+        data = json.loads(msg.payload)
+        logging.debug(f"Message data: {data}")
 
-    packet.addMeasurementValue(emeterPacket.SMA_POSITIVE_ACTIVE_POWER, round(data['powerIn'] * 10))
-    packet.addMeasurementValue(emeterPacket.SMA_NEGATIVE_ACTIVE_POWER, round(data['powerOut'] *10))
-    packet.addMeasurementValue(emeterPacket.SMA_POSITIVE_REACTIVE_POWER, 0)
-    packet.addMeasurementValue(emeterPacket.SMA_NEGATIVE_REACTIVE_POWER, 0)
+        packet = emeterPacket(int(serial_number))
+        packet.begin(int(time.time() * 1000))
 
-    packet.addCounterValue(emeterPacket.SMA_POSITIVE_ENERGY, round(data['energyIn'] * 1000 * 3600))
-    packet.addCounterValue(emeterPacket.SMA_NEGATIVE_ENERGY, round(data['energyOut'] * 1000 * 3600))
+        packet.addMeasurementValue(emeterPacket.SMA_POSITIVE_ACTIVE_POWER, round(data['powerIn'] * 10))
+        packet.addMeasurementValue(emeterPacket.SMA_NEGATIVE_ACTIVE_POWER, round(data['powerOut'] *10))
+        packet.addMeasurementValue(emeterPacket.SMA_POSITIVE_REACTIVE_POWER, 0)
+        packet.addMeasurementValue(emeterPacket.SMA_NEGATIVE_REACTIVE_POWER, 0)
 
-    packet.end()
+        packet.addCounterValue(emeterPacket.SMA_POSITIVE_ENERGY, round(data['energyIn'] * 1000 * 3600))
+        packet.addCounterValue(emeterPacket.SMA_NEGATIVE_ENERGY, round(data['energyOut'] * 1000 * 3600))
 
-    packet_data = packet.getData()[:packet.getLength()]
-    destination_addresses = data.get('destinationAddresses', [])
+        packet.end()
 
-    with userdata['lock']:
-        userdata['packets'][serial_number] = (packet_data, destination_addresses)
-        logging.info(f"Updated packet for serial number {serial_number}")
+        packet_data = packet.getData()[:packet.getLength()]
+        destination_addresses = data.get('destinationAddresses', [])
+
+        with userdata['lock']:
+            userdata['packets'][serial_number] = (packet_data, destination_addresses)
+            logging.info(f"Updated packet for serial number {serial_number}")
+            
+    except json.JSONDecodeError as e:
+        logging.error(f"Failed to decode JSON payload: {e}")
+    except Exception as e:
+        logging.error(f"An unexpected error occurred: {e}")
 
 def set_mqtt_settings():
     if os.environ.get("IS_HA_ADDON"):
