@@ -82,7 +82,7 @@ def update_homewizard(userdata):
 
             with userdata['lock']:
                 userdata['packets'][serial_number] = (packet_data, destination_addresses)
-                logging.info(f"Updated packet for serial number {serial_number}")
+                logging.info(f"Updated homewizard packet for serial number {serial_number}")
 
     except requests.RequestException as e:
         logging.error(f"HTTP Request failed: {e}")

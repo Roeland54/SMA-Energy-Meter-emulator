@@ -1,9 +1,19 @@
 configuration:
-  enable_homewizard:
-    name: Enable Homewizard meters
-    description: If a homewizard meter is found on the network a sma meter will be automatically added.
   enable_mqtt:
     name: Enable listening to MQTT
   mqtt:
     name: MQTT Broker settings
     description: Leave the settings as they are if you are using the MQTT Mosquitto Addon.
+  enable_homewizard:
+    name: Enable Homewizard meters
+    description: Detects Homewizard meters on the local network and adds an emulator automatically. Check logs to see if your meter gets detected.
+  homewizard_manual_addresses:
+    name: Homewizard manual ip addresses
+    description: If the automatic detection fails you can add the ip address of your meter here manually.
+  homewizard_destination_addresses:
+    name: Homewizard destination ip addresses
+    descriptions: Ip addresses where to send the meter data to. Most likely the ip of the inverter/home manager. If empty udp broadcast will be used.
+  debug_logging:
+    name: Enable debug logging
+  disable_logging:
+    name: Disable all logging
