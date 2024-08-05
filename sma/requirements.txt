@@ -1,2 +1,4 @@
 dynaconf~=3.2.5
 paho-mqtt~=2.1.0
+zeroconf~=0.132.2
+requests~=2.32.3

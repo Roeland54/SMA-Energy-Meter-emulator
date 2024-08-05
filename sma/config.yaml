@@ -1,6 +1,6 @@
 name: "SMA Energy Meter emulator"
 description: "Simulate one or more SMA energy meters based on mqtt messages."
-version: "0.0.10"
+version: "rc-0.0.11"
 slug: sma
 url: "https://github.com/Roeland54/SMA-Energy-Meter-emulator"
 arch:
@@ -19,15 +19,16 @@ options:
     port: "auto_port"
     username: "auto_user"
     password: "auto_password"
-  debug_logging: false
-  disable_logging: false
 schema:
-  enable_mqtt: bool
+  enable_mqtt: bool?
   mqtt:
     broker: str
-    port: str
+    port: str?
     username: str?
     password: str?
-  debug_logging: bool
-  disable_logging: bool
+  enable_homewizard: bool?
+  homewizard_destination_addresses:
+    - match(^((25[0-5]|(2[0-4]|1\d|[1-9]|)\d)\.?\b){4}$)?
+  debug_logging: bool?
+  disable_logging: bool?
 image: "ghcr.io/roeland54/{arch}-sma-energy-meter-emulator"

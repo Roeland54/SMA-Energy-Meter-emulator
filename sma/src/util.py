@@ -26,9 +26,9 @@ def setup_logging():
     logger = logging.getLogger()
     logger.setLevel(logging.INFO)
     if "debug_logging" in config.settings:
-        if config.settings["debug_logging"]:
+        if config.settings.get("debug_logging", False):
             logger.setLevel(logging.DEBUG)
 
     if "disable_logging" in config.settings:
-        if config.settings["disable_logging"]:
+        if config.settings.get("disable_logging", False):
             logger.setLevel(logging.ERROR)
