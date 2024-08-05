@@ -1,4 +1,9 @@
 configuration:
+  enable_homewizard:
+    name: Enable Homewizard meters
+    description: If a homewizard meter is found on the network a sma meter will be automatically added.
+  enable_mqtt:
+    name: Enable listening to MQTT
   mqtt:
     name: MQTT Broker settings
     description: Leave the settings as they are if you are using the MQTT Mosquitto Addon.

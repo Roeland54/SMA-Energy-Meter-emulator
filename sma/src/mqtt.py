@@ -8,7 +8,7 @@ from config import settings
 from emeter import emeterPacket
 
 def setup_mqtt(userdata):
-    if settings["enable_mqtt"] is False:
+    if settings.get("enable_mqtt", False) is False:
         return None
     
     set_mqtt_settings()
@@ -34,7 +34,9 @@ def setup_mqtt(userdata):
 def on_connect(client, userdata, flags, rc, properties=None):
     if rc == 0:
         logging.info("Connected to MQTT broker")
-        client.subscribe("sma/emeter/+/state")
+        topic = settings["sma_mqtt_topic"] + "/+/state"
+        client.subscribe(topic)
+        logging.info(f"Subscribed to topic : \"{topic}\"")
     else:
         logging.error(f"Failed to connect, return code {rc}")
 
@@ -66,7 +68,7 @@ def on_message(client, userdata, msg):
         with userdata['lock']:
             userdata['packets'][serial_number] = (packet_data, destination_addresses)
             logging.info(f"Updated packet for serial number {serial_number}")
-            
+
     except json.JSONDecodeError as e:
         logging.error(f"Failed to decode JSON payload: {e}")
     except Exception as e:
@@ -74,10 +76,7 @@ def on_message(client, userdata, msg):
 
 def set_mqtt_settings():
     if os.environ.get("IS_HA_ADDON"):
-        if settings["mqtt"]["broker"] != "auto_broker" \
-                or settings["mqtt"]["port"] != "auto_port" \
-                or settings["mqtt"]["username"] != "auto_user" \
-                or settings["mqtt"]["password"] != "auto_password":
+        if settings["mqtt"]["broker"] != "auto_broker":
             # If settings were manually set, use the manually set settings
             return None
 

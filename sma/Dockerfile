@@ -10,6 +10,8 @@ RUN wget --no-cache https://raw.githubusercontent.com/Roeland54/SMA-Energy-Meter
 # install dependencies
 RUN pip install -r requirements.txt --break-system-packages
 
+RUN pip install zeroconf requests --break-system-packages
+
 COPY / .
 RUN chmod a+x /src/run.sh
 

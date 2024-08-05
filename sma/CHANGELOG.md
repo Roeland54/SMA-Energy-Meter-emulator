@@ -1,5 +1,10 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
 
+## 0.1.0
+
+- Catch invalid json messages
+- Add homewizard support
+
 ## 0.0.10
 
 - Updated docs.
