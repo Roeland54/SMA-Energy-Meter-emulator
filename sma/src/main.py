@@ -12,7 +12,8 @@ def main():
         'lock': threading.Lock(),
         'udp_address': '239.12.255.254',
         'udp_port': 9522,
-        'homewizard_meters': {}
+        'homewizard_meters': {},
+        'ip_serial_numbers': {}
     }
 
     threads=[]

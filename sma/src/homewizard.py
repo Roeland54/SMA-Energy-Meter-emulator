@@ -16,7 +16,7 @@ def setup_homewizard(userdata):
     browser = ServiceBrowser(zeroconf, "_hwenergy._tcp.local.", handlers=[lambda zeroconf, service_type, name, state_change: on_service_state_change(zeroconf, service_type, name, state_change, userdata)])
     random.seed(42)
     for ip in settings.get("homewizard_manual_addresses", []):
-        settings['ip_serial_numbers'][ip] = (ip, hash(ip))
+        userdata['homewizard_meters'][ip] = (ip, hash(ip))
 
 def on_service_state_change(zeroconf, service_type, name, state_change, userdata):
     if state_change is ServiceStateChange.Added:
@@ -40,7 +40,7 @@ def update_homewizard(userdata):
         with userdata['lock']:
             hostnames = userdata['homewizard_meters']
 
-        for (hostname, serial_number) in hostnames.items() + settings.get("ip_serial_numbers", []).items():
+        for (hostname, serial_number) in hostnames.items():
             # Perform the GET request
             response = requests.get(f'http://{hostname}/api/v1/data')
             
