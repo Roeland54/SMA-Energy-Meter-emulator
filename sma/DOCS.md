@@ -1,12 +1,17 @@
 # SMA Energy Meter emulator
 
-This home assistant add-on can emulate the existence of one or more SMA Energy Meters on the local network. This makes it possible to use the data from other meter types and integrate them in your SMA inverter.
+This home assistant add-on can emulate the existence of one or more SMA Energy Meters on the local network. This makes it possible to use the data from other meter types and integrate them with your SMA inverter.
+
+# features
+
+* Emulate meter based on mqtt messages
+* Auto discover Homewizard meters and emulate meters based on there measurements.
 
 # Configuration
 
-If you have a mqtt broker configured in home assistant you do not need to configure anything. Otherwise fill in the mqtt configuration in the configuration tab.
+## How to use MQTT
 
-## How to use
+If you have a mqtt broker configured in home assistant you do not need to configure anything. Otherwise fill in the mqtt configuration in the configuration tab.
 
 The add-on will subscribe to the following mqtt topic: `sma/emeter/<NUMERIC_METER_ID>/state`. When receiving the first message the emulator wil start the emulation of the energy meter with the provided <NUMERIC_METER_ID>. The emulator wil send a udp packet every 1000ms. The content of the packet wil stay the same until it gets updated by the next mqtt message.
 
@@ -41,3 +46,11 @@ data:
     }
   topic: sma/emeter/1/state
 ```
+
+## How to use with Homewizard meters
+
+Enable the Homewizard functionality in the configuration. On startup the addon will try to find the homewizard meters on the local network. When a meter is found a serial number will be assigned and printed to the log output. 
+
+If your homewizard meter is not automatically detected you can manually add it by entering the ip address of the meter(s) in the field "Homewizard manual ip addresses".
+
+If the meter is not detected by the inverter you can add the ip address of your inverter in the field "Homewizard destination ip addresses". 
