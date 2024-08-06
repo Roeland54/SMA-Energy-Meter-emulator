@@ -5,7 +5,7 @@ This home assistant add-on can emulate the existence of one or more SMA Energy M
 # features
 
 * Emulate meter based on mqtt messages
-* Auto discover Homewizard meters and emulate meters based on there measurements.
+* Auto discover HomeWizard meters and emulate meters based on there measurements.
 
 # Configuration
 
@@ -47,10 +47,10 @@ data:
   topic: sma/emeter/1/state
 ```
 
-## How to use with Homewizard meters
+## How to use with HomeWizard meters
 
-Enable the Homewizard functionality in the configuration. On startup the addon will try to find the homewizard meters on the local network. When a meter is found a serial number will be assigned and printed to the log output. 
+Enable the HomeWizard functionality in the configuration. On startup the addon will try to find the homewizard meters on the local network. When a meter is found a serial number will be assigned and printed to the log output. 
 
-If your homewizard meter is not automatically detected you can manually add it by entering the ip address of the meter(s) in the field "Homewizard manual ip addresses".
+If your homewizard meter is not automatically detected you can manually add it by entering the ip address of the meter(s) in the field "HomeWizard manual ip addresses".
 
-If the meter is not detected by the inverter you can add the ip address of your inverter in the field "Homewizard destination ip addresses". 
+If the meter is not detected by the inverter you can add the ip address of your inverter in the field "HomeWizard destination ip addresses". 
