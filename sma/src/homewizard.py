@@ -20,9 +20,11 @@ def setup_homewizard(userdata):
 
 def on_service_state_change(zeroconf, service_type, name, state_change, userdata):
     if state_change is ServiceStateChange.Added:
+        logging.debug(f"Found device with name: {name}, state_change: {state_change}, trying to get info")
         info = zeroconf.get_service_info(service_type, name)
         if info:
             hostname = info.server
+            logging.debug(f"Found device with hostname from ServiceInfo: {hostname}")
             if hostname.startswith("p1meter") or hostname.startswith("kwhmeter"):
                 random.seed(42)
                 serial_number = hash(hostname)
