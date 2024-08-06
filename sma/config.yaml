@@ -19,6 +19,7 @@ options:
     port: "auto_port"
     username: "auto_user"
     password: "auto_password"
+  enable_homewizard: false
 schema:
   enable_mqtt: bool?
   mqtt:

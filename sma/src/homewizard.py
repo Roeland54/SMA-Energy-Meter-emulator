@@ -22,11 +22,11 @@ def on_service_state_change(zeroconf, service_type, name, state_change, userdata
     if state_change is ServiceStateChange.Added:
         info = zeroconf.get_service_info(service_type, name)
         if info:
-            hostname = socket.inet_ntoa(info.address)
+            hostname = info.server
             if hostname.startswith("p1meter") or hostname.startswith("kwhmeter"):
                 random.seed(42)
                 serial_number = hash(hostname)
-                logging.info(f"Found Homewizard meter with hostname: {hostname}, assigned serial number: {serial_number}")
+                logging.info(f"Found HomeWizard meter with hostname: {hostname}, assigned serial number: {serial_number}")
                 with userdata['lock']:
                     userdata['homewizard_meters'][hostname] = (hostname + ".local", serial_number)
 
