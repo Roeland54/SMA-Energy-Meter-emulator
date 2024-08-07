@@ -4,15 +4,15 @@ import time
 import os
 import paho.mqtt.client as mqtt
 import util
-from config import settings
+from config import settings, workingdata
 from emeter import emeterPacket
 
-def setup_mqtt(userdata):
+def setup_mqtt():
     if settings.get("enable_mqtt", False) is False:
         return None
     
     set_mqtt_settings()
-    mqtt_client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2, userdata = userdata, protocol=mqtt.MQTTv5)
+    mqtt_client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2, userdata = workingdata, protocol=mqtt.MQTTv5)
 
     if settings["mqtt"]["username"] and settings["mqtt"]["password"]:
         mqtt_client.username_pw_set(settings["mqtt"]["username"], settings["mqtt"]["password"])

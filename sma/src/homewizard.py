@@ -1,5 +1,5 @@
 from zeroconf import Zeroconf, ServiceBrowser, ServiceStateChange
-from config import settings
+from config import settings, workingdata
 import logging
 import requests
 import hashlib
@@ -7,19 +7,19 @@ from emeter import emeterPacket
 import time
 import json
 
-def setup_homewizard(userdata):
+def setup_homewizard():
     if settings.get("enable_homewizard", False) is False:
         return None
     
     zeroconf = Zeroconf()
-    browser = ServiceBrowser(zeroconf, "_hwenergy._tcp.local.", handlers=[lambda zeroconf, service_type, name, state_change: on_service_state_change(zeroconf, service_type, name, state_change, userdata)])
+    browser = ServiceBrowser(zeroconf, "_hwenergy._tcp.local.", handlers=[lambda zeroconf, service_type, name, state_change: on_service_state_change(zeroconf, service_type, name, state_change)])
     for ip in settings.get("homewizard_manual_addresses", []):
         ip = ip.lower()
         serial_number = string_to_int(ip)
         logging.info(f"HomeWizard manual entry ip/hostname: {ip}, assigned serial number: {serial_number}")
-        userdata['homewizard_meters'][ip] = serial_number
+        workingdata['homewizard_meters'][ip] = serial_number
 
-def on_service_state_change(zeroconf, service_type, name, state_change, userdata):
+def on_service_state_change(zeroconf, service_type, name, state_change):
     if state_change is ServiceStateChange.Added:
         logging.debug(f"Found device with name: {name}, state_change: {state_change}, trying to get info")
         info = zeroconf.get_service_info(service_type, name)
@@ -30,16 +30,16 @@ def on_service_state_change(zeroconf, service_type, name, state_change, userdata
                 hostname = hostname.lower()
                 serial_number = string_to_int(hostname)
                 logging.info(f"Found HomeWizard meter with hostname: {hostname}, assigned serial number: {serial_number}")
-                with userdata['lock']:
-                    userdata['homewizard_meters'][hostname] = serial_number
+                with workingdata['lock']:
+                    workingdata['homewizard_meters'][hostname] = serial_number
 
-def update_homewizard(userdata):
-    if len(userdata['homewizard_meters']) == 0:
+def update_homewizard():
+    if len(workingdata['homewizard_meters']) == 0:
         return None
     
     try:
-        with userdata['lock']:
-            hostnames = userdata['homewizard_meters']
+        with workingdata['lock']:
+            hostnames = workingdata['homewizard_meters']
 
         for (hostname, serial_number) in hostnames.items():
             packet = emeterPacket(int(serial_number))
@@ -84,8 +84,8 @@ def update_homewizard(userdata):
             packet_data = packet.getData()[:packet.getLength()]
             destination_addresses = settings.get("homewizard_destination_addresses", [])
 
-            with userdata['lock']:
-                userdata['packets'][serial_number] = (packet_data, destination_addresses)
+            with workingdata['lock']:
+                workingdata['packets'][serial_number] = (packet_data, destination_addresses)
                 logging.debug(f"Updated homewizard packet for serial number {serial_number}")
 
     except requests.RequestException as e:

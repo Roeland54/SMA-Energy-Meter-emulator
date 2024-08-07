@@ -3,9 +3,10 @@ import socket
 import logging
 import threading
 import homewizard
+from config import workingdata
 
-def setup_udp(userdata):
-    udp_thread = threading.Thread(target=udp_sender, args=(userdata,))
+def setup_udp():
+    udp_thread = threading.Thread(target=udp_sender, args=(workingdata,))
     udp_thread.daemon = True
     udp_thread.start()
     return udp_thread
@@ -15,7 +16,7 @@ def udp_sender(userdata):
     udp_socket.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, 32)
     logging.info('Starting udp loop')
     while True:
-        homewizard.update_homewizard(userdata)
+        homewizard.update_homewizard()
 
         with userdata['lock']:
             for serial_number, (packet_data, destination_addresses) in userdata['packets'].items():
@@ -25,5 +26,6 @@ def udp_sender(userdata):
                         logging.debug(f"Sent packet to {address} for serial number {serial_number}")
                 else:
                     udp_socket.sendto(packet_data, (userdata['udp_address'], userdata['udp_port']))
-                    logging.debug(f"Sent multicast packet for serial number {serial_number} packet data: {packet_data}")
+                    logging.debug(f"Sent multicast packet for serial number {serial_number}")
+                    logging.debug(f"With packet data: {packet_data}")
         time.sleep(1)
