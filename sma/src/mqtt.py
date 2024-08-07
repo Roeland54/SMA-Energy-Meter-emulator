@@ -66,15 +66,15 @@ def on_message(client, userdata, msg):
         destination_addresses = data.get('destinationAddresses', [])
 
         with userdata['lock']:
-            if serial_number not in userdata['packets'][serial_number]:
+            if serial_number not in userdata['packets'].keys():
                 logging.info("New mqtt meter adde with serial number %s", serial_number)
             userdata['packets'][serial_number] = (packet_data, destination_addresses)
             logging.debug("Updated packet for serial number %s", serial_number)
 
     except json.JSONDecodeError as e:
-        logging.error("Failed to decode JSON payload: %e", e)
+        logging.error("Failed to decode JSON payload: %s", e)
     except Exception as e:
-        logging.error("An unexpected error occurred: %e", e)
+        logging.error("An unexpected error occurred: %s", e)
 
 def set_mqtt_settings():
     if os.environ.get("IS_HA_ADDON"):
