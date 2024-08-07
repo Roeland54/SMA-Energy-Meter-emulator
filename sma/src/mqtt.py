@@ -42,7 +42,7 @@ def on_connect(client, userdata, flags, rc, properties=None):
 
 
 def on_message(client, userdata, msg):
-    logging.info(f"Received message on topic {msg.topic}")
+    logging.debug(f"Received message on topic {msg.topic}")
     serial_number = msg.topic.split('/')[2]
 
     try:
@@ -67,7 +67,7 @@ def on_message(client, userdata, msg):
 
         with userdata['lock']:
             if serial_number not in userdata['packets'].keys():
-                logging.info("New mqtt meter adde with serial number %s", serial_number)
+                logging.info("New mqtt meter added with serial number %s", serial_number)
             userdata['packets'][serial_number] = (packet_data, destination_addresses)
             logging.debug("Updated packet for serial number %s", serial_number)
 
