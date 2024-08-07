@@ -20,18 +20,28 @@ def setup_homewizard():
         workingdata['homewizard_meters'][ip] = serial_number
 
 def on_service_state_change(zeroconf, service_type, name, state_change):
-    if state_change is ServiceStateChange.Added:
-        logging.debug(f"Found device with name: {name}, state_change: {state_change}, trying to get info")
-        info = zeroconf.get_service_info(service_type, name)
-        if info:
-            hostname = info.server
-            logging.debug(f"Found device with hostname from ServiceInfo: {hostname}")
-            if hostname.startswith("p1meter") or hostname.startswith("kwhmeter"):
-                hostname = hostname.lower()
-                serial_number = string_to_int(hostname)
-                logging.info(f"Found HomeWizard meter with hostname: {hostname}, assigned serial number: {serial_number}")
-                with workingdata['lock']:
-                    workingdata['homewizard_meters'][hostname] = serial_number
+    if state_change is not ServiceStateChange.Added:
+        return
+    
+    logging.debug(f"Found device with name: {name}, state_change: {state_change}, trying to get info")
+    info = zeroconf.get_service_info(service_type, name)
+    if not info:
+        return
+    hostname = info.server
+    logging.debug(f"Found device with hostname from ServiceInfo: {hostname}")
+
+    if not hostname.startswith("p1meter") and not hostname.startswith("kwhmeter"):
+        return
+    
+    hostname = hostname.lower()
+    serial_number = string_to_int(hostname)
+
+    if serial_number in workingdata['packets'].keys():
+        return
+    
+    logging.info(f"Found HomeWizard meter with hostname: {hostname}, assigned serial number: {serial_number}")
+    with workingdata['lock']:
+        workingdata['homewizard_meters'][hostname] = serial_number
 
 def update_homewizard():
     if len(workingdata['homewizard_meters']) == 0:
