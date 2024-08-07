@@ -2,8 +2,8 @@
 
 ## 0.1.0
 
-- Catch invalid json messages
 - Add homewizard support
+- Catch invalid json messages
 
 ## 0.0.10
 
