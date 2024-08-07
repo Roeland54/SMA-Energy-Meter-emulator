@@ -14,7 +14,8 @@ def setup_homewizard(userdata):
     zeroconf = Zeroconf()
     browser = ServiceBrowser(zeroconf, "_hwenergy._tcp.local.", handlers=[lambda zeroconf, service_type, name, state_change: on_service_state_change(zeroconf, service_type, name, state_change, userdata)])
     for ip in settings.get("homewizard_manual_addresses", []):
-        serial_number = string_to_int(ip.lower())
+        ip = ip.lower()
+        serial_number = string_to_int(ip)
         logging.info(f"HomeWizard manual entry ip/hostname: {ip}, assigned serial number: {serial_number}")
         userdata['homewizard_meters'][ip] = serial_number
 
@@ -26,13 +27,14 @@ def on_service_state_change(zeroconf, service_type, name, state_change, userdata
             hostname = info.server
             logging.debug(f"Found device with hostname from ServiceInfo: {hostname}")
             if hostname.startswith("p1meter") or hostname.startswith("kwhmeter"):
-                serial_number = string_to_int(hostname.lower())
+                hostname = hostname.lower()
+                serial_number = string_to_int(hostname)
                 logging.info(f"Found HomeWizard meter with hostname: {hostname}, assigned serial number: {serial_number}")
                 with userdata['lock']:
                     userdata['homewizard_meters'][hostname] = serial_number
 
 def update_homewizard(userdata):
-    if settings.get("enable_homewizard", False) is False or (len(userdata['homewizard_meters']) == 0 and len(settings.get("homewizard_manual_addresses", [])) == 0):
+    if len(userdata['homewizard_meters']) == 0:
         return None
     
     try:
