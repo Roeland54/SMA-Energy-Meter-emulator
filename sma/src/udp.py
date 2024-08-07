@@ -13,7 +13,7 @@ def setup_udp(userdata):
 def udp_sender(userdata):
     udp_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
     udp_socket.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, 32)
-
+    logging.info('Starting udp loop')
     while True:
         homewizard.update_homewizard(userdata)
 
