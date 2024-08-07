@@ -51,6 +51,6 @@ data:
 
 Enable the HomeWizard functionality in the configuration. On startup the addon will try to find the homewizard meters on the local network. When a meter is found(it can take a few minutes) a serial number will be assigned and printed to the log output. 
 
-If your homewizard meter is not automatically detected you can manually add it by entering the ip address of the meter(s) in the field "HomeWizard manual ip addresses".
+If your homewizard meter is not automatically detected you can manually add it by entering the ip address of the meter(s) in the field "HomeWizard manual addresses".
 
 If the meter is not detected by the inverter you can add the ip address of your inverter in the field "HomeWizard destination ip addresses". 

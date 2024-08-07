@@ -8,8 +8,8 @@ configuration:
     name: Enable HomeWizard meters
     description: Detects HomeWizard meters on the local network and adds an emulator automatically. Check logs to see if your meter gets detected.
   homewizard_manual_addresses:
-    name: HomeWizard manual ip addresses
-    description: If the automatic detection fails you can add the ip address of your meter here manually.
+    name: HomeWizard manual addresses
+    description: If the automatic detection fails you can add the ip address/hostname of your meter here manually.
   homewizard_destination_addresses:
     name: HomeWizard destination ip addresses
     descriptions: Ip addresses where to send the meter data to. Most likely the ip of the inverter/home manager. If empty udp broadcast will be used.
