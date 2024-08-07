@@ -34,10 +34,10 @@ def on_service_state_change(zeroconf, service_type, name, state_change):
         return
     
     hostname = hostname.lower()
-    serial_number = string_to_int(hostname)
-
-    if serial_number in workingdata['packets'].keys():
+    if hostname in workingdata['homewizard_meters'].keys():
         return
+    
+    serial_number = string_to_int(hostname)
     
     logging.info(f"Found HomeWizard meter with hostname: {hostname}, assigned serial number: {serial_number}")
     with workingdata['lock']:
