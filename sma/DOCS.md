@@ -27,6 +27,14 @@ The add-on will subscribe to the following mqtt topic: `sma/emeter/<NUMERIC_METE
 }
 ```
 
+## How to use with HomeWizard meters
+
+Enable the HomeWizard functionality in the configuration. On startup the addon will try to find the homewizard meters on the local network. When a meter is found(it can take a few minutes) a serial number will be assigned and printed to the log output. To speed up the process for the next startup you can add the hostname in the configuration in the field "HomeWizard manual addresses". 
+
+If your homewizard meter is not automatically detected you can manually add it by entering the ip address of the meter(s) in the field "HomeWizard manual addresses". 
+
+If the meter is not detected by the inverter you can add the ip address of your inverter in the field "HomeWizard destination ip addresses". 
+
 # Home Assistant
 
 example of a service call to publish the mqtt message:
@@ -46,11 +54,3 @@ data:
     }
   topic: sma/emeter/1/state
 ```
-
-## How to use with HomeWizard meters
-
-Enable the HomeWizard functionality in the configuration. On startup the addon will try to find the homewizard meters on the local network. When a meter is found(it can take a few minutes) a serial number will be assigned and printed to the log output. To speed up the process for the next startup you can add the hostname in the configuration in the field "HomeWizard manual addresses". 
-
-If your homewizard meter is not automatically detected you can manually add it by entering the ip address of the meter(s) in the field "HomeWizard manual addresses". 
-
-If the meter is not detected by the inverter you can add the ip address of your inverter in the field "HomeWizard destination ip addresses". 
