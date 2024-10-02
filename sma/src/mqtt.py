@@ -52,14 +52,81 @@ def on_message(client, userdata, msg):
         packet = emeterPacket(int(serial_number))
         packet.begin(int(time.time() * 1000))
 
-        packet.addMeasurementValue(emeterPacket.SMA_POSITIVE_ACTIVE_POWER, round(data['powerIn'] * 10))
-        packet.addMeasurementValue(emeterPacket.SMA_NEGATIVE_ACTIVE_POWER, round(data['powerOut'] *10))
-        packet.addMeasurementValue(emeterPacket.SMA_POSITIVE_REACTIVE_POWER, 0)
-        packet.addMeasurementValue(emeterPacket.SMA_NEGATIVE_REACTIVE_POWER, 0)
+        if settings.get("full_data_packet", False) is False:
+            packet.addMeasurementValue(emeterPacket.SMA_POSITIVE_ACTIVE_POWER, round(data['powerIn'] * 10))
+            packet.addMeasurementValue(emeterPacket.SMA_NEGATIVE_ACTIVE_POWER, round(data['powerOut'] *10))
+            packet.addMeasurementValue(emeterPacket.SMA_POSITIVE_REACTIVE_POWER, 0)
+            packet.addMeasurementValue(emeterPacket.SMA_NEGATIVE_REACTIVE_POWER, 0)
 
-        packet.addCounterValue(emeterPacket.SMA_POSITIVE_ENERGY, round(data['energyIn'] * 1000 * 3600))
-        packet.addCounterValue(emeterPacket.SMA_NEGATIVE_ENERGY, round(data['energyOut'] * 1000 * 3600))
+            packet.addCounterValue(emeterPacket.SMA_POSITIVE_ACTIVE_ENERGY, round(data['energyIn'] * 1000 * 3600))
+            packet.addCounterValue(emeterPacket.SMA_NEGATIVE_ACTIVE_ENERGY, round(data['energyOut'] * 1000 * 3600))
+        else:
+            # Totals
+            packet.addMeasurementValue(emeterPacket.SMA_POSITIVE_ACTIVE_POWER, round(data['powerIn'] * 10))
+            packet.addCounterValue(emeterPacket.SMA_POSITIVE_ACTIVE_ENERGY, round(data['energyIn'] * 1000 * 3600))
+            packet.addMeasurementValue(emeterPacket.SMA_NEGATIVE_ACTIVE_POWER, round(data['powerOut'] *10))
+            packet.addCounterValue(emeterPacket.SMA_NEGATIVE_ACTIVE_ENERGY, round(data['energyOut'] * 1000 * 3600))
+            packet.addMeasurementValue(emeterPacket.SMA_POSITIVE_REACTIVE_POWER, 0)
+            packet.addCounterValue(emeterPacket.SMA_POSITIVE_REACTIVE_ENERGY, 0)
+            packet.addMeasurementValue(emeterPacket.SMA_NEGATIVE_REACTIVE_POWER, 0)
+            packet.addCounterValue(emeterPacket.SMA_NEGATIVE_REACTIVE_ENERGY, 0)
+            packet.addMeasurementValue(emeterPacket.SMA_POSITIVE_APPARENT_POWER, 0)
+            packet.addCounterValue(emeterPacket.SMA_POSITIVE_APPARENT_ENERGY, 0)
+            packet.addMeasurementValue(emeterPacket.SMA_NEGATIVE_APPARENT_POWER, 0)
+            packet.addCounterValue(emeterPacket.SMA_NEGATIVE_APPARENT_ENERGY, 0)
+            packet.addMeasurementValue(emeterPacket.SMA_POWER_FACTOR, 900)  # assume almost perfect power factor of 0.9 for default value
 
+            #L1
+            packet.addMeasurementValue(emeterPacket.SMA_POSITIVE_ACTIVE_POWER_L1, 0)
+            packet.addCounterValue(emeterPacket.SMA_POSITIVE_ACTIVE_ENERGY_L1, 0)
+            packet.addMeasurementValue(emeterPacket.SMA_NEGATIVE_ACTIVE_POWER_L1, 0)
+            packet.addCounterValue(emeterPacket.SMA_NEGATIVE_ACTIVE_ENERGY_L1, 0)
+            packet.addMeasurementValue(emeterPacket.SMA_POSITIVE_REACTIVE_POWER_L1, 0)
+            packet.addCounterValue(emeterPacket.SMA_POSITIVE_REACTIVE_ENERGY_L1, 0)
+            packet.addMeasurementValue(emeterPacket.SMA_NEGATIVE_REACTIVE_POWER_L1, 0)
+            packet.addCounterValue(emeterPacket.SMA_NEGATIVE_REACTIVE_ENERGY_L1, 0)
+            packet.addMeasurementValue(emeterPacket.SMA_POSITIVE_APPARENT_POWER_L1, 0)
+            packet.addCounterValue(emeterPacket.SMA_POSITIVE_APPARENT_ENERGY_L1, 0)
+            packet.addMeasurementValue(emeterPacket.SMA_NEGATIVE_APPARENT_POWER_L1, 0)
+            packet.addCounterValue(emeterPacket.SMA_NEGATIVE_APPARENT_ENERGY_L1, 0)
+            packet.addMeasurementValue(emeterPacket.SMA_CURRENT_L1, 0)
+            packet.addMeasurementValue(emeterPacket.SMA_VOLTAGE_L1, 0)
+            packet.addMeasurementValue(emeterPacket.SMA_POWER_FACTOR_L1, 900)  # assume almost perfect power factor of 0.9 for default value
+
+            #L2
+            packet.addMeasurementValue(emeterPacket.SMA_POSITIVE_ACTIVE_POWER_L2, 0)
+            packet.addCounterValue(emeterPacket.SMA_POSITIVE_ACTIVE_ENERGY_L2, 0)
+            packet.addMeasurementValue(emeterPacket.SMA_NEGATIVE_ACTIVE_POWER_L2, 0)
+            packet.addCounterValue(emeterPacket.SMA_NEGATIVE_ACTIVE_ENERGY_L2, 0)
+            packet.addMeasurementValue(emeterPacket.SMA_POSITIVE_REACTIVE_POWER_L2, 0)
+            packet.addCounterValue(emeterPacket.SMA_POSITIVE_REACTIVE_ENERGY_L2, 0)
+            packet.addMeasurementValue(emeterPacket.SMA_NEGATIVE_REACTIVE_POWER_L2, 0)
+            packet.addCounterValue(emeterPacket.SMA_NEGATIVE_REACTIVE_ENERGY_L2, 0)
+            packet.addMeasurementValue(emeterPacket.SMA_POSITIVE_APPARENT_POWER_L2, 0)
+            packet.addCounterValue(emeterPacket.SMA_POSITIVE_APPARENT_ENERGY_L2, 0)
+            packet.addMeasurementValue(emeterPacket.SMA_NEGATIVE_APPARENT_POWER_L2, 0)
+            packet.addCounterValue(emeterPacket.SMA_NEGATIVE_APPARENT_ENERGY_L2, 0)
+            packet.addMeasurementValue(emeterPacket.SMA_CURRENT_L2, 0)
+            packet.addMeasurementValue(emeterPacket.SMA_VOLTAGE_L2, 0)
+            packet.addMeasurementValue(emeterPacket.SMA_POWER_FACTOR_L2, 900)  # assume almost perfect power factor of 0.9 for default value
+
+            #L3
+            packet.addMeasurementValue(emeterPacket.SMA_POSITIVE_ACTIVE_POWER_L3, 0)
+            packet.addCounterValue(emeterPacket.SMA_POSITIVE_ACTIVE_ENERGY_L3, 0)
+            packet.addMeasurementValue(emeterPacket.SMA_NEGATIVE_ACTIVE_POWER_L3, 0)
+            packet.addCounterValue(emeterPacket.SMA_NEGATIVE_ACTIVE_ENERGY_L3, 0)
+            packet.addMeasurementValue(emeterPacket.SMA_POSITIVE_REACTIVE_POWER_L3, 0)
+            packet.addCounterValue(emeterPacket.SMA_POSITIVE_REACTIVE_ENERGY_L3, 0)
+            packet.addMeasurementValue(emeterPacket.SMA_NEGATIVE_REACTIVE_POWER_L3, 0)
+            packet.addCounterValue(emeterPacket.SMA_NEGATIVE_REACTIVE_ENERGY_L3, 0)
+            packet.addMeasurementValue(emeterPacket.SMA_POSITIVE_APPARENT_POWER_L3, 0)
+            packet.addCounterValue(emeterPacket.SMA_POSITIVE_APPARENT_ENERGY_L3, 0)
+            packet.addMeasurementValue(emeterPacket.SMA_NEGATIVE_APPARENT_POWER_L3, 0)
+            packet.addCounterValue(emeterPacket.SMA_NEGATIVE_APPARENT_ENERGY_L3, 0)
+            packet.addMeasurementValue(emeterPacket.SMA_CURRENT_L3, 0)
+            packet.addMeasurementValue(emeterPacket.SMA_VOLTAGE_L3, 0)
+            packet.addMeasurementValue(emeterPacket.SMA_POWER_FACTOR_L3, 900)  # assume almost perfect power factor of 0.9 for default value
+            
         packet.end()
 
         packet_data = packet.getData()[:packet.getLength()]
