@@ -20,6 +20,7 @@ options:
     username: "auto_user"
     password: "auto_password"
   enable_homewizard: false
+  full_data_packet: false
 schema:
   enable_mqtt: bool?
   mqtt:
@@ -28,6 +29,7 @@ schema:
     username: str?
     password: str?
   enable_homewizard: bool
+  full_data_packet: bool?
   homewizard_manual_addresses:
     - str?
   homewizard_destination_addresses:
