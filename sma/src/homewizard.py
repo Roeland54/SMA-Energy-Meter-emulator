@@ -1,11 +1,13 @@
-from zeroconf import Zeroconf, ServiceBrowser, ServiceStateChange
-from config import settings, workingdata
-import logging
-import requests
 import hashlib
-from emeter import emeterPacket
-import time
 import json
+import logging
+import time
+
+import requests
+from config import settings, workingdata
+from emeter import emeterPacket
+from zeroconf import ServiceBrowser, ServiceStateChange, Zeroconf
+
 
 def setup_homewizard():
     if settings.get("enable_homewizard", False) is False:
@@ -82,11 +84,11 @@ def update_homewizard():
 
             # Sum the total energy imports (t1 and t2)
             total_power_import_kwh = data['total_power_import_t1_kwh'] + data['total_power_import_t2_kwh']
-            packet.addCounterValue(emeterPacket.SMA_POSITIVE_ENERGY, round(total_power_import_kwh * 1000 * 3600))
+            packet.addCounterValue(emeterPacket.SMA_POSITIVE_ACTIVE_ENERGY, round(total_power_import_kwh * 1000 * 3600))
 
             # Sum the total energy exports (t1 and t2)
             total_power_export_kwh = data['total_power_export_t1_kwh'] + data['total_power_export_t2_kwh']
-            packet.addCounterValue(emeterPacket.SMA_NEGATIVE_ENERGY, round(total_power_export_kwh * 1000 * 3600))
+            packet.addCounterValue(emeterPacket.SMA_NEGATIVE_ACTIVE_ENERGY, round(total_power_export_kwh * 1000 * 3600))
 
             packet.end()
 

@@ -1,6 +1,6 @@
 name: "SMA Energy Meter emulator"
 description: "Simulate one or more SMA energy meters based on mqtt messages."
-version: "0.1.0"
+version: "0.1.1"
 slug: sma
 url: "https://github.com/Roeland54/SMA-Energy-Meter-emulator"
 arch:
@@ -20,7 +20,6 @@ options:
     username: "auto_user"
     password: "auto_password"
   enable_homewizard: false
-  full_data_packet: false
 schema:
   enable_mqtt: bool?
   mqtt:
@@ -29,7 +28,6 @@ schema:
     username: str?
     password: str?
   enable_homewizard: bool
-  full_data_packet: bool?
   homewizard_manual_addresses:
     - str?
   homewizard_destination_addresses:
