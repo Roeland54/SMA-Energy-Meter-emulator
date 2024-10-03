@@ -1,11 +1,13 @@
 import json
 import logging
-import time
 import os
+import time
+
 import paho.mqtt.client as mqtt
 import util
 from config import settings, workingdata
 from emeter import emeterPacket
+
 
 def setup_mqtt():
     if settings.get("enable_mqtt", False) is False:
@@ -52,14 +54,12 @@ def on_message(client, userdata, msg):
         packet = emeterPacket(int(serial_number))
         packet.begin(int(time.time() * 1000))
 
+        # Totals
         packet.addMeasurementValue(emeterPacket.SMA_POSITIVE_ACTIVE_POWER, round(data['powerIn'] * 10))
+        packet.addCounterValue(emeterPacket.SMA_POSITIVE_ACTIVE_ENERGY, round(data['energyIn'] * 1000 * 3600))
         packet.addMeasurementValue(emeterPacket.SMA_NEGATIVE_ACTIVE_POWER, round(data['powerOut'] *10))
-        packet.addMeasurementValue(emeterPacket.SMA_POSITIVE_REACTIVE_POWER, 0)
-        packet.addMeasurementValue(emeterPacket.SMA_NEGATIVE_REACTIVE_POWER, 0)
-
-        packet.addCounterValue(emeterPacket.SMA_POSITIVE_ENERGY, round(data['energyIn'] * 1000 * 3600))
-        packet.addCounterValue(emeterPacket.SMA_NEGATIVE_ENERGY, round(data['energyOut'] * 1000 * 3600))
-
+        packet.addCounterValue(emeterPacket.SMA_NEGATIVE_ACTIVE_ENERGY, round(data['energyOut'] * 1000 * 3600))
+ 
         packet.end()
 
         packet_data = packet.getData()[:packet.getLength()]
