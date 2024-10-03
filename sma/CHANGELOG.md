@@ -1,6 +1,6 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
 
-## 0.1.2-rc1
+## 0.1.2-rc2
 
 - Extend package to support tripower inverters
 
