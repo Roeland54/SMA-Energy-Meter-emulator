@@ -75,7 +75,7 @@ class emeterPacket:
         self._pPacketPos = self._headerLength
         self.storeU32BE(self._pMeterTime, timeStampMs)
         self._length = self.INITIAL_PAYLOAD_LENGTH
-
+        
         # Add dummy values for measurements to make sure the package always contains these. Solves tripower inverters not recognizing the data as valid.
         # Totals
         self.addMeasurementValue(emeterPacket.SMA_POSITIVE_ACTIVE_POWER, 0)
@@ -142,7 +142,6 @@ class emeterPacket:
         self.addMeasurementValue(emeterPacket.SMA_CURRENT_L3, 0)
         self.addMeasurementValue(emeterPacket.SMA_VOLTAGE_L3, 0)
         self.addMeasurementValue(emeterPacket.SMA_POWER_FACTOR_L3, 0)
-
 
     def addMeasurementValue(self, id, value):
         self._pPacketPos = self.storeU32BE(self._pPacketPos, id)
