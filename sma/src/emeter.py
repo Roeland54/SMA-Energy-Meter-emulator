@@ -78,10 +78,6 @@ class emeterPacket:
 
         # Add dummy values for measurements to make sure the package always contains these. Solves tripower inverters not recognizing the data as valid.
         # Totals
-        self.addMeasurementValue(emeterPacket.SMA_POSITIVE_ACTIVE_POWER, 0)
-        self.addCounterValue(emeterPacket.SMA_POSITIVE_ACTIVE_ENERGY, 0)
-        self.addMeasurementValue(emeterPacket.SMA_NEGATIVE_ACTIVE_POWER, 0)
-        self.addCounterValue(emeterPacket.SMA_NEGATIVE_ACTIVE_ENERGY, 0)
         self.addMeasurementValue(emeterPacket.SMA_POSITIVE_REACTIVE_POWER, 0)
         self.addCounterValue(emeterPacket.SMA_POSITIVE_REACTIVE_ENERGY, 0)
         self.addMeasurementValue(emeterPacket.SMA_NEGATIVE_REACTIVE_POWER, 0)
