@@ -1,8 +1,8 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
 
-## 0.1.4-rc2
+## 0.1.4
 
-- patching for tripower
+- patch for tripower inverters
 
 ## 0.1.3
 
