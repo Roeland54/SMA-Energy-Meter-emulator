@@ -54,7 +54,7 @@ class emeterPacket:
     SMA_CURRENT_L1 = 0x001F0400
     SMA_CURRENT_L2 = 0x00330400
     SMA_CURRENT_L3 = 0x00470400
-    SMA_VOLTAGE_L1 = 0x00020400
+    SMA_VOLTAGE_L1 = 0x00320400
     SMA_VOLTAGE_L2 = 0x00340400
     SMA_VOLTAGE_L3 = 0x00480400
     SMA_VERSION = 0x90000000
@@ -78,10 +78,6 @@ class emeterPacket:
 
         # Add dummy values for measurements to make sure the package always contains these. Solves tripower inverters not recognizing the data as valid.
         # Totals
-        self.addMeasurementValue(emeterPacket.SMA_POSITIVE_ACTIVE_POWER, 0)
-        self.addCounterValue(emeterPacket.SMA_POSITIVE_ACTIVE_ENERGY, 0)
-        self.addMeasurementValue(emeterPacket.SMA_NEGATIVE_ACTIVE_POWER, 0)
-        self.addCounterValue(emeterPacket.SMA_NEGATIVE_ACTIVE_ENERGY, 0)
         self.addMeasurementValue(emeterPacket.SMA_POSITIVE_REACTIVE_POWER, 0)
         self.addCounterValue(emeterPacket.SMA_POSITIVE_REACTIVE_ENERGY, 0)
         self.addMeasurementValue(emeterPacket.SMA_NEGATIVE_REACTIVE_POWER, 0)
